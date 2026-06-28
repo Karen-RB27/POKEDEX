@@ -7,11 +7,13 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from "react-native";
 import { useFocusEffect } from "expo-router";
 import {
   listarFavoritos,
   excluirFavorito,
+  atualizarApelido,
 } from "../../services/favoritesService";
 
 export default function FavoritesScreen() {
@@ -33,7 +35,10 @@ export default function FavoritesScreen() {
       "Excluir",
       "Deseja remover este Pokémon dos favoritos?",
       [
-        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
         {
           text: "Excluir",
           onPress: async () => {
@@ -73,6 +78,21 @@ export default function FavoritesScreen() {
                 {item.tipo1}
                 {item.tipo2 ? ` / ${item.tipo2}` : ""}
               </Text>
+
+              <TextInput
+            placeholder="Digite um apelido"
+            placeholderTextColor="#999"
+            defaultValue={item.apelido}
+            style={styles.input}
+            onEndEditing={async (e) => {
+              await atualizarApelido(
+                item.idFirebase,
+                e.nativeEvent.text
+              );
+
+              carregarFavoritos();
+            }}
+          />
             </View>
 
             <TouchableOpacity
@@ -136,10 +156,20 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
+  input: {
+    marginTop: 10,
+    backgroundColor: "#3a3a3a",
+    color: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+
   deleteButton: {
     backgroundColor: "#d62828",
     padding: 10,
     borderRadius: 10,
+    marginLeft: 10,
   },
 
   deleteText: {
