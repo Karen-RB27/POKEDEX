@@ -2,6 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import {  StyleSheet, Text,  View, Image, TouchableOpacity, TextInput, Animated, } 
 from "react-native";
 import React, { useState, useEffect, useRef } from "react";
+import { router } from "expo-router";
+
 
 type Pokemon = {
   id: number;
@@ -116,40 +118,55 @@ export default function App() {
 
         {/* POKÉMON */}
         {pokemon && !loading && (
-          <>
-            <View style={styles.imageBox}>
-              <Animated.Image
-                source={{ uri: pokemon.imagem }}
-                style={[
-                  styles.pokemonImage,
-                  { transform: [{ translateY: bounceValue }] },
-                ]}
-              />
-            </View>
+  <>
+        <View style={styles.imageBox}>
+          <Animated.Image
+            source={{ uri: pokemon.imagem }}
+            style={[
+              styles.pokemonImage,
+              { transform: [{ translateY: bounceValue }] },
+            ]}
+          />
+        </View>
 
-            <Text style={styles.name}>
-              {pokemon.nome.toUpperCase()}
+        <Text style={styles.name}>
+          {pokemon.nome.toUpperCase()}
+        </Text>
+
+        <Text style={styles.id}>#{pokemon.id}</Text>
+
+        <View style={styles.typeContainer}>
+          <View style={styles.typeBadge}>
+            <Text style={styles.typeText}>
+              {pokemon.tipo1}
             </Text>
+          </View>
 
-            <Text style={styles.id}>#{pokemon.id}</Text>
-
-            <View style={styles.typeContainer}>
-              <View style={styles.typeBadge}>
-                <Text style={styles.typeText}>
-                  {pokemon.tipo1}
-                </Text>
-              </View>
-
-              {pokemon.tipo2 && (
-                <View style={styles.typeBadge}>
-                  <Text style={styles.typeText}>
-                    {pokemon.tipo2}
-                  </Text>
-                </View>
-              )}
+          {pokemon.tipo2 && (
+            <View style={styles.typeBadge}>
+              <Text style={styles.typeText}>
+                {pokemon.tipo2}
+              </Text>
             </View>
-          </>
-        )}
+          )}
+        </View>
+
+        <TouchableOpacity
+          style={styles.detailsButton}
+          onPress={() =>
+            router.push({
+              pathname: "/pokemon/[id]",
+              params: { id: pokemon.id.toString() },
+            })
+          }
+        >
+          <Text style={styles.buttonText}>
+            Ver Detalhes
+          </Text>
+        </TouchableOpacity>
+      </>
+    )}
+
 
         {/* BOTÕES */}
         <View style={styles.buttonArea}>
@@ -295,4 +312,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     marginBottom: 10,
   },
+
+  detailsButton: {
+  backgroundColor: "#3b82f6",
+  padding: 12,
+  borderRadius: 12,
+  width: "100%",
+  alignItems: "center",
+  marginBottom: 15,
+},
 });
