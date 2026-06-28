@@ -155,7 +155,7 @@ export default function App() {
           style={styles.detailsButton}
           onPress={() =>
             router.push({
-              pathname: "/pokemon/[id]",
+              pathname: "/pokemon/Id",
               params: { id: pokemon.id.toString() },
             })
           }
