@@ -1,20 +1,7 @@
 import React, { useCallback, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-} from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, FlatList, Image, TouchableOpacity, Alert, TextInput,} from "react-native";
 import { useFocusEffect } from "expo-router";
-import {
-  listarFavoritos,
-  excluirFavorito,
-  atualizarApelido,
-} from "../../services/favoritesService";
+import { listarFavoritos, excluirFavorito, atualizarApelido, } from "../../services/favoritesService";
 
 export default function FavoritesScreen() {
   const [favoritos, setFavoritos] = useState<any[]>([]);
@@ -51,7 +38,7 @@ export default function FavoritesScreen() {
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Text style={styles.title}>❤️ Favoritos</Text>
 
       <FlatList
@@ -104,7 +91,7 @@ export default function FavoritesScreen() {
           </View>
         )}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -119,6 +106,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 28,
     fontWeight: "bold",
+    marginTop: 30,
     marginBottom: 20,
     textAlign: "center",
   },
