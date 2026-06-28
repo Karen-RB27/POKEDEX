@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
+import { salvarFavorito } from "../../services/favoritesService";
 
 type Pokemon = {
   id: number;
@@ -46,13 +55,21 @@ export default function PokemonDetails() {
     }
   }
 
+  async function favoritar() {
+    if (!pokemon) return;
+
+    const sucesso = await salvarFavorito(pokemon);
+
+    if (sucesso) {
+      Alert.alert("Sucesso", "Pokémon salvo nos favoritos!");
+    } else {
+      Alert.alert("Erro", "Não foi possível salvar.");
+    }
+  }
+
   return (
     <>
-      <Stack.Screen
-        options={{
-          title: "Detalhes",
-        }}
-      />
+      <Stack.Screen options={{ title: "Detalhes" }} />
 
       <View style={styles.container}>
         {loading ? (
@@ -84,6 +101,15 @@ export default function PokemonDetails() {
             <Text style={styles.info}>
               Peso: {pokemon?.peso} kg
             </Text>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={favoritar}
+            >
+              <Text style={styles.buttonText}>
+                ❤️ Favoritar
+              </Text>
+            </TouchableOpacity>
           </>
         )}
       </View>
@@ -121,5 +147,20 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
     marginTop: 10,
+  },
+
+  button: {
+    backgroundColor: "#e63946",
+    padding: 14,
+    borderRadius: 12,
+    marginTop: 30,
+    width: "100%",
+    alignItems: "center",
+  },
+
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });
