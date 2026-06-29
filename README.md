@@ -23,6 +23,6 @@ O PokeApp é um aplicativo desenvolvido em React Native com Expo que permite pes
 ## API utilizada
 PokeAPI: https://pokeapi.co/
 
-
+(KAREN ROCHA E LETÍCIA SILVA - SIS)
 Karen
 
